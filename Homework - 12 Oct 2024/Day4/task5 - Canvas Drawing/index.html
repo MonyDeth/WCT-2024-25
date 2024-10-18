@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Shapes</title>
+    <style>
+        canvas {
+            border: 1px solid #000; /* Add a border to the canvas */
+            display: block; /* Center the canvas */
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="400" height="400"></canvas>
+
+<script src="script.js"></script>
+</body>
+<script>
+    // Get the canvas element and its context
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Draw a rectangle
+    ctx.fillStyle = 'blue'; // Set the fill color for the rectangle
+    ctx.fillRect(50, 50, 150, 100); // Draw the rectangle (x, y, width, height)
+
+    // Draw a circle
+    ctx.beginPath(); // Start a new path
+    ctx.arc(300, 150, 50, 0, Math.PI * 2, false); // Draw a circle (x, y, radius, startAngle, endAngle, anticlockwise)
+    ctx.fillStyle = 'red'; // Set the fill color for the circle
+    ctx.fill(); // Fill the circle
+    ctx.closePath(); // Close the path
+
+</script>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Section</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Light grey background */
+            font-family: Arial, sans-serif;
+        }
+        .wrapper {
+            margin: 20px;
+            text-align: center; /* Center align text in wrapper */
+            background-color: white; /* White background for content */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+            padding: 20px; /* Padding around content */
+        }
+        .container {
+            display: flex; /* Use flexbox to align items side by side */
+            justify-content: center; /* Center children horizontally */
+            align-items: center; /* Center children vertically */
+        }
+        .title {
+            font-size: 18px; /* Font size for titles */
+            margin-top: 10px; /* Margin above titles */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="wrapper">
+        <h3>YouTube Video</h3>
+        <iframe width="300" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        <div class="title">My Favorite Video</div>
+    </div>
+
+    <div class="wrapper">
+        <h3>Audio File</h3>
+        <audio controls>
+            <source src="audio.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div class="title">My Favorite Audio</div>
+    </div>
+</div>
+
+</body>
+</html>

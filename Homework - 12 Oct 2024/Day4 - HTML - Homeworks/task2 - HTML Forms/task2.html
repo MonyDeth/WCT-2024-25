@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Font family for the text */
+            background-color: #f4f4f4; /* Light gray background */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Full height of the viewport */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Style for the form container */
+        .form-container {
+            background: white; /* White background for the form */
+            padding: 20px; /* Padding inside the form */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            width: 300px; /* Fixed width for the form */
+        }
+
+        /* Style for form elements */
+        label {
+            display: block; /* Each label on a new line */
+            margin: 10px 0 5px; /* Space above and below labels */
+            font-weight: bold; /* Bold text for labels */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%; /* Full width of the input */
+            padding: 10px; /* Padding inside the input */
+            border: 1px solid #ccc; /* Light border */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 15px; /* Space below inputs */
+            font-size: 16px; /* Font size for inputs */
+        }
+
+        /* Style for the submit button */
+        button {
+            background-color: #28a745; /* Button color (green) */
+            color: white; /* Button text color */
+            border: none; /* No border */
+            padding: 10px; /* Padding inside button */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 16px; /* Font size for button */
+            transition: background-color 0.3s; /* Smooth background transition */
+        }
+
+        /* Change button color on hover */
+        button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Error message styling */
+        .error {
+            color: red; /* Red text for error messages */
+            font-size: 12px; /* Smaller font for error messages */
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>User Information Form</h2>
+    <form id="userForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <span id="emailError" class="error"></span>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]*" required>
+        <span id="phoneError" class="error"></span>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    // Form validation
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        let isValid = true; // Flag for validation
+
+        // Validate email
+        const email = document.getElementById('email').value;
+        const emailError = document.getElementById('emailError');
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email regex pattern
+
+        if (!emailPattern.test(email)) {
+            emailError.textContent = 'Please enter a valid email address.';
+            isValid = false; // Set validation flag to false
+        } else {
+            emailError.textContent = ''; // Clear error message
+        }
+
+        // Validate phone number
+        const phone = document.getElementById('phone').value;
+        const phoneError = document.getElementById('phoneError');
+
+        if (isNaN(phone) || phone.trim() === '') {
+            phoneError.textContent = 'Phone number must be numeric.';
+            isValid = false; // Set validation flag to false
+        } else {
+            phoneError.textContent = ''; // Clear error message
+        }
+
+        if (!isValid) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursor Collision Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
+            background-color: #f0f0f0; /* Light background color */
+        }
+        canvas {
+            display: block; /* Center canvas on the page */
+            background-color: #fff; /* White background for the canvas */
+            cursor: none; /* Hide default cursor */
+        }
+    </style>
+</head>
+<body>
+<canvas id="gameCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Cursor properties
+    const cursor = {
+        x: 0,
+        y: 0,
+        radius: 30, // Collision radius of the cursor
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.strokeStyle = 'blue'; // Cursor color
+            ctx.lineWidth = 2; // Cursor border width
+            ctx.stroke();
+            ctx.closePath();
+        }
+    };
+
+    // Ball properties
+    const balls = [];
+    const ballCount = 25;
+    const ballRadius = 10;
+    const heavyFactor = 0.05; // Factor to make balls feel heavier
+
+    // Function to create balls
+    function createBalls() {
+        for (let i = 0; i < ballCount; i++) {
+            const ball = {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: 0, // Random initial velocity
+                vy: 0, // Random initial velocity
+                radius: ballRadius,
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'red'; // Ball color
+                    ctx.fill();
+                    ctx.closePath();
+                },
+                update() {
+                    // Move the ball
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Check for collision with cursor
+                    const dx = this.x - cursor.x;
+                    const dy = this.y - cursor.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // If the ball is within the cursor's collision radius, it moves less
+                    if (distance < cursor.radius + this.radius) {
+                        // Adjust velocity based on distance to cursor
+                        this.vx += (dx * heavyFactor);
+                        this.vy += (dy * heavyFactor);
+                    }
+
+                    // Check for collision with walls
+                    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                        this.vx *= -0.8; // Reverse x velocity and dampen
+                        this.x = Math.min(Math.max(this.x, this.radius), canvas.width - this.radius); // Clamp position
+                    }
+                    if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                        this.vy *= -0.8; // Reverse y velocity and dampen
+                        this.y = Math.min(Math.max(this.y, this.radius), canvas.height - this.radius); // Clamp position
+                    }
+                }
+            };
+            balls.push(ball);
+        }
+    }
+
+    // Function to handle mouse movement
+    function updateCursorPosition(event) {
+        cursor.x = event.clientX;
+        cursor.y = event.clientY;
+    }
+
+    // Function to handle collisions between balls
+    function handleBallCollisions() {
+        for (let i = 0; i < balls.length; i++) {
+            for (let j = i + 1; j < balls.length; j++) {
+                const ballA = balls[i];
+                const ballB = balls[j];
+
+                const dx = ballB.x - ballA.x;
+                const dy = ballB.y - ballA.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < ballA.radius + ballB.radius) {
+                    // Simple collision response
+                    const angle = Math.atan2(dy, dx);
+                    const targetX = ballA.x + Math.cos(angle) * (ballA.radius + ballB.radius);
+                    const targetY = ballA.y + Math.sin(angle) * (ballA.radius + ballB.radius);
+                    const ax = targetX - ballB.x;
+                    const ay = targetY - ballB.y;
+
+                    // Move balls apart based on their mass (we'll consider them equal here)
+                    ballA.vx -= ax * 0.01; // Adjust ball A's velocity
+                    ballA.vy -= ay * 0.01; // Adjust ball A's velocity
+                    ballB.vx += ax * 0.01; // Adjust ball B's velocity
+                    ballB.vy += ay * 0.01; // Adjust ball B's velocity
+                }
+            }
+        }
+    }
+
+    // Main game loop
+    function gameLoop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+        // Draw cursor
+        cursor.draw();
+
+        // Update and draw balls
+        for (const ball of balls) {
+            ball.update(); // Update ball movement
+            ball.draw();   // Draw the ball
+        }
+
+        handleBallCollisions(); // Handle collisions between balls
+
+        requestAnimationFrame(gameLoop); // Request next frame
+    }
+
+    // Initialize the game
+    window.onload = () => {
+        createBalls(); // Create balls once loaded
+        canvas.addEventListener('mousemove', updateCursorPosition); // Update cursor position on mouse move
+        gameLoop(); // Start the game loop
+    };
+</script>
+</body>
+</html>

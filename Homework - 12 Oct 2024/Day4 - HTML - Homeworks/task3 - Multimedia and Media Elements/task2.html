@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Section</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Light grey background */
+            font-family: Arial, sans-serif;
+        }
+        .wrapper {
+            margin: 20px;
+            text-align: center; /* Center align text in wrapper */
+            background-color: white; /* White background for content */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+            padding: 20px; /* Padding around content */
+        }
+        .container {
+            display: flex; /* Use flexbox to align items side by side */
+            justify-content: center; /* Center children horizontally */
+            align-items: center; /* Center children vertically */
+        }
+        .title {
+            font-size: 18px; /* Font size for titles */
+            margin-top: 10px; /* Margin above titles */
+        }
+        .controls {
+            margin-top: 10px; /* Space above controls */
+            display: flex; /* Use flexbox for controls */
+            justify-content: center; /* Center controls */
+            align-items: center; /* Center controls vertically */
+        }
+        .control-icon {
+            cursor: pointer;
+            font-size: 24px; /* Icon size */
+            margin: 0 10px; /* Space between icons */
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+        .control-icon:hover {
+            color: #D31027; /* Color on hover */
+        }
+        .volume-slider {
+            margin-left: 10px; /* Space between slider and other controls */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="wrapper">
+        <h3>YouTube Video</h3>
+        <iframe id="youtubeVideo" width="300" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        <div class="title">My Favorite Video</div>
+        <div class="controls">
+            <i class="ri-play-line control-icon" onclick="playVideo()"></i>
+            <i class="ri-pause-line control-icon" onclick="pauseVideo()"></i>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100" onchange="setVolume()">
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <h3>Audio File</h3>
+        <audio id="audioPlayer" controls style="display:none;">
+            <source src="audio.mp3 " type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div class="title">My Favorite Audio</div>
+        <div class="controls">
+            <i class="ri-play-line control-icon" onclick="playAudio()"></i>
+            <i class="ri-pause-line control-icon" onclick="pauseAudio()"></i>
+            <input type="range" class="volume-slider" id="audioVolumeSlider" min="0" max="100" value="100" onchange="setAudioVolume()">
+        </div>
+    </div>
+</div>
+
+<script>
+    // Video controls
+    const youtubeVideo = document.getElementById("youtubeVideo");
+
+    function playVideo() {
+        const videoSrc = youtubeVideo.src;
+        youtubeVideo.src = videoSrc + "?autoplay=1"; // Adding autoplay parameter
+    }
+
+    function pauseVideo() {
+        const videoSrc = youtubeVideo.src.replace("?autoplay=1", "");
+        youtubeVideo.src = videoSrc; // Removing autoplay parameter
+    }
+
+    function setVolume() {
+        const volume = document.getElementById("volumeSlider").value;
+        // Set volume (YouTube API does not allow volume control directly)
+        console.log("YouTube volume is set to:", volume);
+    }
+
+    // Audio controls
+    const audioPlayer = document.getElementById("audioPlayer");
+
+    function playAudio() {
+        audioPlayer.play();
+    }
+
+    function pauseAudio() {
+        audioPlayer.pause();
+    }
+
+    function setAudioVolume() {
+        const audioVolume = document.getElementById("audioVolumeSlider").value / 100;
+        audioPlayer.volume = audioVolume; // Set audio volume
+    }
+</script>
+
+</body>
+</html>

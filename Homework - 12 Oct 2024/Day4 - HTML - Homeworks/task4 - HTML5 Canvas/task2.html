@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Drawing App</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 1px solid #000; /* Border around the canvas */
+            background-color: #fff; /* White background for canvas */
+            cursor: crosshair; /* Cursor style for the drawing area */
+            margin-bottom: 10px; /* Space below the canvas */
+        }
+        .color-button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            border-radius: 5px; /* Rounded corners */
+            transition: border 0.3s; /* Smooth transition for border */
+        }
+        .color-button.selected {
+            border: 3px solid black; /* Black border for selected color */
+        }
+        .clear-button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            background-color: #ff4747; /* Red background for clear button */
+            color: white; /* White text */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition for background */
+        }
+        .clear-button:hover {
+            background-color: #ff1c1c; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Basic Drawing App</h1>
+<div>
+    <button class="color-button" id="red" style="background-color: red;"></button>
+    <button class="color-button" id="green" style="background-color: green;"></button>
+    <button class="color-button" id="blue" style="background-color: blue;"></button>
+</div>
+<canvas id="myCanvas" width="400" height="400"></canvas>
+<button class="clear-button" id="clear">Clear</button> <!-- Clear button -->
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let drawing = false;
+    let currentColor = 'black'; // Default color
+
+    // Function to reset the selected button's border
+    function resetColorButtons() {
+        document.querySelectorAll('.color-button').forEach(button => {
+            button.classList.remove('selected'); // Remove 'selected' class from all buttons
+        });
+    }
+
+    // Set the current color based on button clicks
+    document.getElementById('red').addEventListener('click', () => {
+        resetColorButtons(); // Reset other buttons
+        currentColor = 'red';
+        document.getElementById('red').classList.add('selected'); // Add 'selected' class to the red button
+        canvas.style.cursor = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="red" /></svg>') 25 25, crosshair`; // Change cursor to red circle
+    });
+    document.getElementById('green').addEventListener('click', () => {
+        resetColorButtons();
+        currentColor = 'green';
+        document.getElementById('green').classList.add('selected'); // Add 'selected' class to the green button
+        canvas.style.cursor = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="green" /></svg>') 25 25, crosshair`; // Change cursor to green circle
+    });
+    document.getElementById('blue').addEventListener('click', () => {
+        resetColorButtons();
+        currentColor = 'blue';
+        document.getElementById('blue').classList.add('selected'); // Add 'selected' class to the blue button
+        canvas.style.cursor = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="blue" /></svg>') 25 25, crosshair`; // Change cursor to blue circle
+    });
+
+    // Start drawing on mouse down
+    canvas.addEventListener('mousedown', (e) => {
+        drawing = true;
+        ctx.beginPath(); // Start a new path
+        ctx.moveTo(e.offsetX, e.offsetY); // Move to mouse position
+    });
+
+    // Draw on mouse move
+    canvas.addEventListener('mousemove', (e) => {
+        if (!drawing) return;
+        ctx.strokeStyle = currentColor; // Set the current color
+        ctx.lineWidth = 5; // Set line width
+        ctx.lineTo(e.offsetX, e.offsetY); // Draw to the new mouse position
+        ctx.stroke(); // Render the line
+    });
+
+    // Stop drawing on mouse up or mouse out
+    canvas.addEventListener('mouseup', () => {
+        drawing = false;
+        ctx.closePath(); // Close the path
+    });
+    canvas.addEventListener('mouseout', () => {
+        drawing = false;
+        ctx.closePath(); // Close the path
+    });
+
+    // Clear the canvas when the clear button is clicked
+    document.getElementById('clear').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    });
+</script>
+
+</body>
+</html>

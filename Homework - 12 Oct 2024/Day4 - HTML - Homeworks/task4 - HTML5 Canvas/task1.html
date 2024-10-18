@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Drawing</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 1px solid #000; /* Border around the canvas */
+            background-color: #fff; /* White background for canvas */
+        }
+        h1 {
+            margin-bottom: 20px; /* Space below the heading */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Drawing on Canvas</h1>
+<canvas id="myCanvas" width="400" height="400"></canvas>
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Draw a rectangle
+    ctx.fillStyle = 'blue'; // Color for the rectangle
+    ctx.fillRect(50, 50, 150, 100); // x, y, width, height
+
+    // Draw a circle
+    ctx.fillStyle = 'green'; // Color for the circle
+    ctx.beginPath(); // Start a new path
+    ctx.arc(300, 150, 50, 0, Math.PI * 2, false); // x, y, radius, startAngle, endAngle
+    ctx.fill(); // Fill the circle
+
+    // Draw a line
+    ctx.strokeStyle = 'red'; // Color for the line
+    ctx.lineWidth = 5; // Width of the line
+    ctx.beginPath(); // Start a new path
+    ctx.moveTo(50, 200); // Starting point of the line
+    ctx.lineTo(350, 300); // Ending point of the line
+    ctx.stroke(); // Draw the line
+</script>
+
+</body>
+</html>
