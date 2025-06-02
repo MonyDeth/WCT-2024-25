@@ -37,7 +37,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/catalogue', function () {
     return view('catalogue');
-})->middleware('auth')->name('catalogue');
+    })->name('catalogue');
+
+    Route::get('/category', function () {
+    return view('category');
+    })->name('category');
 
 });
 
