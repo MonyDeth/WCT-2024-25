@@ -8,7 +8,7 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4 ">
 
     @if(session('success') || session('error') || $errors->any())
     <div

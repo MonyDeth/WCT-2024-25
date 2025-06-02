@@ -18,8 +18,8 @@ class UserController extends Controller
         $user->save();
 
         Auth::login($user);
-        return response()->json(['message' => 'User created', 'data' => $user]);
-        // return redirect()->route('dashboard')->with('success', 'Welcome!');
+        // return response()->json(['message' => 'User created', 'data' => $user]);
+        return redirect()->route('dashboard')->with('success', 'Welcome!');
     }
 
     public function login(Request $request)
@@ -52,8 +52,10 @@ class UserController extends Controller
         }
 
         Auth::login($user);
-        return response()->json(['access_token' => $jwt]);
-        // return redirect()->route('dashboard')->with('success', 'Welcome back!');
+        // return response()->json(['access_token' => $jwt]);
+        return redirect()->route('dashboard')->with('success', 'Welcome back!');
+        // return redirect('/')
+        // ->with('success', 'Welcome back!');
     }
 
     public function logout()

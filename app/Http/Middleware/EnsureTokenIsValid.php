@@ -18,5 +18,7 @@ class EnsureTokenIsValid
         $token = $request->tokenBearer();
         if (!token || str_starts_with)
         return $next($request);
+    
     }
+
 }

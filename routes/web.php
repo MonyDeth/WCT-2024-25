@@ -12,24 +12,34 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 
+Route::get('/', function () {
+    return view('login'); // login.blade.php
+})->name('login');
+
 // Route::get('/', function () {
-//     return view('login'); // login.blade.php
+//     return view('welcome'); // login.blade.php
+// });
+
+// Route::get('/', function () {
+//     return view('welcome'); // your login page
 // })->name('login');
 
-Route::get('/', function () {
-    return view('welcome'); // login.blade.php
-});
 
 // Show register form
 Route::get('/register', function () {
     return view('register'); // This is your register.blade.php
 })->name('register');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
+    Route::get('/catalogue', function () {
+    return view('catalogue');
+})->middleware('auth')->name('catalogue');
 
+});
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);

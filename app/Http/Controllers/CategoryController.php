@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category_name' => 'required|string|max:255',
-            'category_abbreviation' => 'required|string|max:10',
+            'category_abbreviation' => 'required|string|max:4',
             'description' => 'nullable|string',
         ]);
 
@@ -44,9 +44,19 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Category not found'], 404);
         }
 
+        // Validate input
+        $request->validate([
+            'category_name' => 'required|string|max:255',
+            'category_abbreviation' => 'required|string|max:5',
+            'description' => 'nullable|string',
+        ]);
+
         $category->update($request->only(['category_name', 'category_abbreviation', 'description']));
 
-        return response()->json(['message' => 'Category updated', 'data' => $category]);
+        return response()->json([
+            'message' => 'Category updated',
+            'data' => $category
+        ]);
     }
 
     public function destroy($id)
