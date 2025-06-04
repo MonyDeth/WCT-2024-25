@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+Route::get('/run-migrations', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return 'Migrations executed!';
+});
+
 
 Route::get('/', function () {
     return view('login'); // login.blade.php
