@@ -12,7 +12,7 @@
         <div class="flex gap-2 flex-wrap">
             <!-- Search -->
             <input type="text" x-model="search" @input="filterProducts"
-                   placeholder="Search products..."
+                   placeholder="Search..."
                    class="border px-3 py-1 rounded-lg text-sm">
 
             <!-- Category Filter -->
@@ -25,16 +25,24 @@
             </select>
 
             <!-- Toggle View -->
-            <button @click="isGrid = !isGrid"
-                    class="border rounded-lg px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200">
-                <span x-text="isGrid ? 'Table View' : 'Grid View'"></span>
-            </button>
+                <button @click="isGrid = !isGrid"
+                class="group relative border rounded-lg px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 transition flex items-center gap-2">
+
+            <!-- Icon changes based on view mode -->
+            <i :class="isGrid ? 'ri-list-view' : 'ri-layout-grid-line'" class="text-lg"></i>
+
+            <!-- Hidden hint text shown on hover -->
+            <div class="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none z-10 whitespace-nowrap">
+                <span x-text="isGrid ? 'Switch to Table View' : 'Switch to Grid View'"></span>
+            </div>
+        </button>
+
 
             <!-- Add Product -->
             <button @click="showAddModal = true"
-                    class="bg-gray-200 text-sky-700 px-4 py-1 rounded-lg hover:bg-sky-100 text-sm transition">
-                <i class="ri-add-circle-fill ri-lg"></i>
-             Add Product    
+                    class="bg-gray-800 text-white px-4 py-1 rounded-lg hover:bg-gray-600 text-sm transition">
+                <i class="ri-add-circle-line ri-lg"></i>
+             Add Product
         </button>
         </div>
     </div>
@@ -54,10 +62,15 @@
             </template>
         </div>
     </template>
-
+    <template x-if="filteredProducts.length === 0">
+        <div class="flex flex-col items-center justify-center p-6 space-y-2 text-gray-500">
+            <img src="/images/not-found.png" alt="No results" class="w-40 h-40 object-contain" />
+            <p class="text-sm font-semibold">No results found.</p>
+        </div>
+    </template>
     <!-- Table View -->
     <template x-if="!isGrid">
-        <div class="overflow-x-auto border rounded-xl bg-white">
+        <div class="overflow-x-auto border rounded-xl bg-white shadow-sm">
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-100">
                     <tr>
@@ -65,7 +78,7 @@
                         <th class="text-left px-4 py-2">Category</th>
                         <th class="text-left px-4 py-2">Price</th>
                         <th class="text-left px-4 py-2">Description</th>
-                        <th class="text-left px-4 py-2">Actions</th> <!-- New column -->
+                        <th class="text-left px-4 py-2 flex justify-center">Actions</th> <!-- New column -->
                     </tr>
                 </thead>
                 <tbody>
@@ -75,14 +88,14 @@
                             <td class="px-4 py-2" x-text="product.category?.category_name || 'N/A'"></td>
                             <td class="px-4 py-2" x-text="formatPrice(product.price)"></td>
                             <td class="px-4 py-2" x-text="product.description || '-'"></td>
-                            <td class="px-4 py-2 flex gap-2">
+                            <td class="px-4 py-2 flex gap-2 justify-center">
                                 <a @click="editProduct(product)"
                                 class="flex justify-center p-2 bg-gray-100 text-black hover:bg-gray-300 text-md rounded-md min-w-16 transition">
-                                <i class="ri-edit-box-fill"></i> Edit</a>
+                                <i class="ri-edit-box-line"></i> Edit</a>
 
                                 <button @click="deleteProduct(product.id)"
                                 class="flex justify-center p-2 bg-gray-100 text-red-600 rounded-md hover:bg-red-200 text-md min-w-16 transition">
-                                <i class="ri-delete-bin-fill"></i> Delete</button>
+                                <i class="ri-delete-bin-line"></i> Delete</button>
                             </td>
                         </tr>
                     </template>
@@ -90,6 +103,7 @@
             </table>
         </div>
     </template>
+
 
 
     <!-- Add Product Modal -->

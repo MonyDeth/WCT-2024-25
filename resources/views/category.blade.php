@@ -9,22 +9,28 @@
     <div class="flex justify-between items-center">
         <h1 class="text-2xl font-bold">Product Categories</h1>
 
-        <button @click="showAddModal = true"
-                class="bg-gray-200 text-sky-700 px-4 py-1 rounded-lg hover:bg-sky-100 text-sm transition">
-                <i class="ri-add-circle-fill ri-lg"></i>
-             Add Category
-        </button>
+            <div class="flex gap-2 flex-wrap">
+            <input type="text" x-model="search" @input="filterCategories"
+                    placeholder="Search..."
+                    class="border px-3 py-1 rounded-lg text-sm">
+
+            <button @click="showAddModal = true"
+                    class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-600 text-sm transition">
+                    <i class="ri-add-circle-line ri-lg"></i>
+                Add Category
+            </button>
+        </div>
     </div>
 
     <!-- Table View -->
-    <div class="overflow-x-auto border rounded-xl bg-white">
+    <div class="overflow-x-auto border rounded-xl bg-white shadow-sm">
         <table class="min-w-full text-sm">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="text-left px-4 py-2">Category Name</th>
                     <th class="text-left px-4 py-2">Abbreviation</th>
                     <th class="text-left px-4 py-2">Description</th>
-                    <th class="text-left px-4 py-2">Actions</th>
+                    <th class="text-left px-4 py-2 flex justify-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,17 +39,27 @@
                         <td class="px-4 py-2" x-text="cat.category_name"></td>
                         <td class="px-4 py-2" x-text="cat.category_abbreviation"></td>
                         <td class="px-4 py-2" x-text="cat.description || '-'"></td>
-                        <td class="px-4 py-2 flex gap-2">
+                        <td class="px-4 py-2 flex gap-2 justify-center">
                             <a href="javascript:void(0)"
                                @click="editCategory(cat)"
                                class="flex items-center justify-center p-2 bg-gray-100 text-black hover:bg-gray-300 rounded-md min-w-[64px] transition">
-                                <i class="ri-edit-box-fill mr-1"></i> Edit
+                                <i class="ri-edit-box-line mr-1"></i> Edit
                             </a>
 
                             <button @click="deleteCategory(cat.id)"
                                     class="flex items-center justify-center p-2 bg-gray-100 text-red-600 rounded-md hover:bg-red-200 min-w-[64px] transition">
-                                <i class="ri-delete-bin-fill mr-1"></i> Delete
+                                <i class="ri-delete-bin-line mr-1"></i> Delete
                             </button>
+                        </td>
+                    </tr>
+                </template>
+
+                <!-- empty state -->
+                <template x-if="filteredCategories.length === 0">
+                    <tr>
+                        <td colspan="4" class="text-center px-4 py-8">
+                            <img src="{{ asset('images/not-found.png') }}" alt="Not found" class="mx-auto h-32 mb-4 opacity-70">
+                            <div class="text-gray-500 text-sm">No results found.</div>
                         </td>
                     </tr>
                 </template>
@@ -83,6 +99,7 @@
 <script>
     function categoryPage() {
         return {
+            search: '',
             categories: [],
             filteredCategories: [],
             showAddModal: false,
@@ -101,9 +118,16 @@
             },
 
             filterCategories() {
-                // For now, no search/filter, just copy all
-                this.filteredCategories = this.categories;
+                const term = this.search.toLowerCase();
+                this.filteredCategories = this.categories.filter(category =>
+                    category.category_name.toLowerCase().includes(term)
+                    || category.category_abbreviation.toLowerCase().includes(term)
+                    || (category.description || '').toLowerCase().includes(term)
+                );
             },
+
+
+
 
             editCategory(cat) {
                 this.categoryForm = {...cat};

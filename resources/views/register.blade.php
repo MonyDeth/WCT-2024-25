@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Register - Small POS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-</head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4 ">
-
-    @if(session('success') || session('error') || $errors->any())
-    <div
-        x-data="{ show: true, progress: 100 }"
-        x-show="show"s
-        x-init="
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Register - Small POS</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+	</head>
+	<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+		@if(session('success') || session('error') || $errors->any())
+		<div
+			x-data="{ show: true, progress: 100 }"
+			x-show="show"
+			s
+			x-init="
             let totalTime = 3000;
             let intervalTime = 30;
             let decrement = 100 / (totalTime / intervalTime);
@@ -27,70 +26,60 @@
                 }
             }, intervalTime);
         "
-        class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm bg-white shadow-lg rounded-lg p-4 border border-gray-300 text-sm text-gray-800"
-    >
+			class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm bg-white shadow-lg rounded-lg p-4 border border-gray-300 text-sm text-gray-800"
+		>
+			<button @click="show = false" class="absolute top-2 right-2 text-gray-500 hover:text-black text-lg leading-none">&times;</button>
 
-        <button @click="show = false" class="absolute top-2 right-2 text-gray-500 hover:text-black text-lg leading-none">&times;</button>
+			@if(session('success'))
+			<div class="text-green-600 font-semibold">{{ session('success') }}</div>
+			@endif @if(session('error'))
+			<div class="text-red-600 font-semibold">{{ session('error') }}</div>
+			@endif @if($errors->any())
+			<div class="text-red-600 font-semibold">
+				{{ $errors->first() }}
+			</div>
+			@endif
 
-        @if(session('success'))
-            <div class="text-green-600 font-semibold">{{ session('success') }}</div>
-        @endif
+			<!-- Progress bar -->
+			<div class="w-full mt-2 h-1 bg-gray-200 rounded overflow-hidden">
+				<div class="h-full bg-blue-500 transition-all duration-100" :style="{ width: progress + '%' }"></div>
+			</div>
+		</div>
+		@endif
 
-        @if(session('error'))
-            <div class="text-red-600 font-semibold">{{ session('error') }}</div>
-        @endif
+		<div class="max-w-3xl w-full mx-auto bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm overflow-hidden p-0">
+			<div class="grid p-0 md:grid-cols-2">
+                <div class="bg-muted relative hidden md:block">
+					<img src="https://media1.tenor.com/m/BVkIDaN93ycAAAAC/particles-biosynth-gala.gif" alt="Image" class="absolute inset-0 h-full w-full object-cover" />
+				</div>
+				<!-- Form -->
+				<form action="{{ url('/register') }}" method="POST" class="p-6 space-y-4 bg-white">
+					<div class="bg-white rounded-t-xl">
+						<h1 class="text-gray-800 text-2xl font-bold">Register an Account</h1>
+						<p class="text-gray-600 mt-1 text-sm">Please provide following information</p>
+					</div>
+					@csrf
+					<div>
+						<label for="name" class="block text-gray-700 font-medium mb-1">Name</label>
+						<input type="text" id="name" name="name" required class="w-full px-3 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500" />
+					</div>
+					<div>
+						<label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
+						<input type="email" id="email" name="email" required class="w-full px-3 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500" />
+					</div>
+					<div>
+						<label for="password" class="block text-gray-700 font-medium mb-1">Password</label>
+						<input type="password" id="password" name="password" required class="w-full px-3 py-1 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500" />
+					</div>
+					<button type="submit" class="w-full bg-gray-800 text-white font-semibold py-2 rounded-md hover:bg-gray-700 transition">Register</button>
+					<!-- Footer -->
+					<div class="p-6 border-t text-center text-sm text-gray-600">
+						Already have an account?
+						<a href="{{ url('/') }}" class="px-4 py-1 ms-2 border rounded-md shadow-sm text-gray-800 hover:bg-gray-100">Log in</a>
+					</div>
+				</form>
 
-        @if($errors->any())
-            <div class="text-red-600 font-semibold">
-                {{ $errors->first() }}
-            </div>
-        @endif
-
-        <!-- Progress bar -->
-        <div class="w-full mt-2 h-1 bg-gray-200 rounded overflow-hidden">
-            <div
-                class="h-full bg-blue-500 transition-all duration-100"
-                :style="{ width: progress + '%' }"
-            ></div>
-        </div>
-    </div>
-@endif
-
-    <div class="max-w-md w-full bg-white rounded-lg shadow-md overflow-hidden">
-
-        <div class="bg-sky-800 p-6 rounded-t-xl">
-            <h1 class="text-white text-2xl font-semibold">Register an Account</h1>
-        </div>
-
-        <!-- No banner on register page -->
-
-        <!-- Form -->
-        <form action="{{ url('/register') }}" method="POST" class="p-6 space-y-6">
-            @csrf
-            <div>
-                <label for="name" class="block text-gray-700 font-medium mb-1">Name</label>
-                <input type="text" id="name" name="name" required
-                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-            <div>
-                <label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
-                <input type="email" id="email" name="email" required
-                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-            <div>
-                <label for="password" class="block text-gray-700 font-medium mb-1">Password</label>
-                <input type="password" id="password" name="password" required
-                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-            <button type="submit"
-                class="w-full bg-sky-800 text-white font-semibold py-2 rounded-md hover:bg-sky-700 transition">Register</button>
-        </form>
-
-        <!-- Footer -->
-        <div class="p-6 border-t text-center text-sm text-gray-600">
-            Already have an account?
-            <a href="{{ url('/login') }}" class="text-sky-800 hover:underline">Log in here</a>
-        </div>
-    </div>
-</body>
+			</div>
+		</div>
+	</body>
 </html>
