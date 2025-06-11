@@ -42,12 +42,12 @@
                         <td class="px-4 py-2 flex gap-2 justify-center">
                             <a href="javascript:void(0)"
                                @click="editCategory(cat)"
-                               class="flex items-center justify-center p-2 bg-gray-100 text-black hover:bg-gray-300 rounded-md min-w-[64px] transition">
+                               class="flex items-center justify-center p-1 px-2 bg-gray-100 text-black hover:bg-gray-300 rounded-md min-w-[64px] transition">
                                 <i class="ri-edit-box-line mr-1"></i> Edit
                             </a>
 
                             <button @click="deleteCategory(cat.id)"
-                                    class="flex items-center justify-center p-2 bg-gray-100 text-red-600 rounded-md hover:bg-red-200 min-w-[64px] transition">
+                                    class="flex items-center justify-center p-1 px-2 bg-gray-100 text-red-600 rounded-md hover:bg-red-200 min-w-[64px] transition">
                                 <i class="ri-delete-bin-line mr-1"></i> Delete
                             </button>
                         </td>
@@ -68,31 +68,34 @@
     </div>
 
     <!-- Add/Edit Category Modal -->
-    <div
-        x-show="showAddModal"
-        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
-        style="margin:0 !important; padding:0 !important;"
-        >
-        <div class="bg-white w-full max-w-md rounded-xl p-6 space-y-4 shadow-xl"
-             @click.away="showAddModal = false">
-            <h2 class="text-lg font-bold" x-text="isEditingCategory ? 'Edit Category' : 'Add New Category'"></h2>
+    <template x-teleport="body">
+  <div
+    x-show="showAddModal"
+    class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+    style="margin:0 !important; padding:0 !important;"
+  >
+    <div class="bg-white w-full max-w-md rounded-xl p-6 space-y-4 shadow-xl"
+         @click.away="showAddModal = false">
+      <h2 class="text-lg font-bold" x-text="isEditingCategory ? 'Edit Category' : 'Add New Category'"></h2>
 
-            <div class="space-y-2">
-                <input type="text" placeholder="Category Name" x-model="categoryForm.category_name"
-                       class="w-full border px-3 py-2 rounded" />
-                <input type="text" placeholder="Category Abbreviation" x-model="categoryForm.category_abbreviation"
-                       class="w-full border px-3 py-2 rounded" />
-                <textarea placeholder="Description" x-model="categoryForm.description"
-                          class="w-full border px-3 py-2 rounded"></textarea>
-            </div>
+      <div class="space-y-2">
+        <input type="text" placeholder="Category Name" x-model="categoryForm.category_name"
+               class="w-full border px-3 py-2 rounded-md shadow-sm" />
+        <input type="text" placeholder="Category Abbreviation" x-model="categoryForm.category_abbreviation"
+               class="w-full border px-3 py-2 rounded-md shadow-sm" />
+        <textarea placeholder="Description" x-model="categoryForm.description"
+                  class="w-full border px-3 py-2 rounded-md shadow-sm"></textarea>
+      </div>
 
-            <div class="flex justify-end gap-2 pt-2">
-                <button class="px-4 py-2 text-sm text-gray-600" @click="showAddModal = false">Cancel</button>
-                <button class="px-4 py-2 bg-sky-600 text-white rounded text-sm"
-                        @click="submitCategoryForm()">Save</button>
-            </div>
-        </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button class="px-4 py-1 text-sm text-gray-600 border border-gray-200 p-1 rounded-md shadow-sm" @click="showAddModal = false">Cancel</button>
+        <button class="px-8 py-1 bg-gray-800 text-white rounded text-sm hover:bg-gray-700"
+                @click="submitCategoryForm()">Save</button>
+      </div>
     </div>
+  </div>
+</template>
+
 
 </div>
 
@@ -183,4 +186,6 @@
         }
     }
 </script>
+<script src="{{ asset('js/catalogue.js') }}"></script>
+
 @endsection

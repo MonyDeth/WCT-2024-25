@@ -16,13 +16,13 @@ class SaleOrderItem extends Model
         'price',
     ];
 
+    public function saleOrder()
+    {
+        return $this->belongsTo(SaleOrder::class);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function order()
-    {
-        return $this->belongsTo(SaleOrder::class, 'sale_order_id');
     }
 }

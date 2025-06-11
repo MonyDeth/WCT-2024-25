@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;  // add DB facade
 use App\Models\Product;
 
 class POSController extends Controller
 {
-
     public function index()
     {
         $products = Product::all();
         return view('pos', compact('products'));
     }
-
 
     public function checkout(Request $request)
     {
@@ -35,21 +34,44 @@ class POSController extends Controller
         $discountAmount = ($data['discount'] / 100) * $subtotal;
         $grandTotal = $subtotal - $discountAmount;
 
-        // Save the sale order
-        $orderId = DB::table('sale_orders')->insertGetId([
-            'subtotal' => $subtotal,
-            'discount' => $discountAmount,
-            'grand_total' => $grandTotal,
-            'payment_method_id' => $data['payment_method_id'],
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // Wrap in DB transaction to ensure atomicity
+        DB::beginTransaction();
 
-        // Optionally, save items to sale_order_items table if you have one
-        // DB::table('sale_order_items')->insert([...]);
+        try {
+            // Insert sale_order and get inserted ID
+            $orderId = DB::table('sale_orders')->insertGetId([
+                'subtotal' => $subtotal,
+                'discount' => $discountAmount,
+                'grand_total' => $grandTotal,
+                'payment_method_id' => $data['payment_method_id'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        return response()->json(['success' => true, 'order_id' => $orderId]);
+            // Prepare sale_order_items data
+            $orderItems = [];
+            foreach ($data['items'] as $item) {
+                $orderItems[] = [
+                    'sale_order_id' => $orderId,
+                    'product_id' => $item['id'],
+                    'quantity' => $item['qty'],
+                    'price' => $item['price'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            // Insert all items at once
+            DB::table('sale_order_items')->insert($orderItems);
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'order_id' => $orderId]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Optionally log error
+            return response()->json(['success' => false, 'message' => 'Checkout failed.'], 500);
+        }
     }
-
 }
-

@@ -90,11 +90,11 @@
                             <td class="px-4 py-2" x-text="product.description || '-'"></td>
                             <td class="px-4 py-2 flex gap-2 justify-center">
                                 <a @click="editProduct(product)"
-                                class="flex justify-center p-2 bg-gray-100 text-black hover:bg-gray-300 text-md rounded-md min-w-16 transition">
+                                class="flex justify-center p-1 px-2 bg-gray-100 text-black hover:bg-gray-300 text-md rounded-md min-w-16 transition">
                                 <i class="ri-edit-box-line"></i> Edit</a>
 
                                 <button @click="deleteProduct(product.id)"
-                                class="flex justify-center p-2 bg-gray-100 text-red-600 rounded-md hover:bg-red-200 text-md min-w-16 transition">
+                                class="flex justify-center p-1 px-2 bg-gray-100 text-red-600 rounded-md hover:bg-red-200 text-md min-w-16 transition">
                                 <i class="ri-delete-bin-line"></i> Delete</button>
                             </td>
                         </tr>
@@ -107,41 +107,43 @@
 
 
     <!-- Add Product Modal -->
-    <div
-        x-show="showAddModal"
-        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
-        style="margin:0 !important; padding:0 !important;"
-        >
-        <div class="bg-white w-full max-w-md rounded-xl p-6 space-y-4 shadow-xl"
-             @click.away="showAddModal = false">
-            <h2 class="text-lg font-bold">Add New Product</h2>
+     <template x-teleport="body">
+        <div
+            x-show="showAddModal"
+            class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+            style="margin:0 !important; padding:0 !important;"
+            >
+            <div class="bg-white w-full max-w-md rounded-xl p-6 space-y-4 shadow-xl"
+                @click.away="showAddModal = false">
+                <h2 class="text-lg font-bold">Add New Product</h2>
 
-            <div class="space-y-2">
-                <input type="text" placeholder="Product Name" x-model="form.name"
-                       class="w-full border px-3 py-2 rounded" />
+                <div class="space-y-2">
+                    <input type="text" placeholder="Product Name" x-model="form.name"
+                        class="w-full border px-3 py-2 rounded-md shadow-sm" />
 
-                <select x-model="form.category_id" class="w-full border px-3 py-2 rounded">
-                    <option value="">Select Category</option>
-                    <template x-for="cat in categories" :key="cat.id">
-                        <option :value="cat.id" x-text="`${cat.category_name} (${cat.category_abbreviation})`"></option>
-                    </template>
-                </select>
+                    <select x-model="form.category_id" class="w-full border px-3 py-2 rounded-md shadow-sm">
+                        <option value="">Select Category</option>
+                        <template x-for="cat in categories" :key="cat.id">
+                            <option :value="cat.id" x-text="`${cat.category_name} (${cat.category_abbreviation})`"></option>
+                        </template>
+                    </select>
 
 
-                <input type="number" placeholder="Price (USD)" x-model="form.price"
-                       class="w-full border px-3 py-2 rounded" />
+                    <input type="number" placeholder="Price (USD)" x-model="form.price"
+                        class="w-full border px-3 py-2 rounded-md shadow-sm" />
 
-                <textarea placeholder="Description" x-model="form.description"
-                          class="w-full border px-3 py-2 rounded"></textarea>
-            </div>
+                    <textarea placeholder="Description" x-model="form.description"
+                            class="w-full border px-3 py-2 rounded-md shadow-sm"></textarea>
+                </div>
 
-            <div class="flex justify-end gap-2 pt-2">
-                <button class="px-4 py-2 text-sm text-gray-600" @click="showAddModal = false">Cancel</button>
-                <button class="px-4 py-2 bg-sky-600 text-white rounded text-sm"
-                        @click="submitForm">Add</button>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button class="px-4 py-1 text-sm text-gray-600 border border-gray-200 p-1 rounded-md shadow-sm" @click="showAddModal = false">Cancel</button>
+                    <button class="px-6 py-1 bg-gray-800 text-white rounded-md shadow-sm text-sm hover:bg-gray-700"
+                            @click="submitForm">Add</button>
+                </div>
             </div>
         </div>
-    </div>
+    </template>
 </div>
 
 <script>
@@ -151,7 +153,7 @@
         style: 'currency',
         currency: 'USD',
     }).format(value);
-}
+    }
 
     function catalogue() {
 

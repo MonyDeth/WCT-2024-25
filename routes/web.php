@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\POSController;
+use App\Http\Controllers\SaleOrderController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,11 @@ Route::get('/', function () {
 // })->name('login');
 
 Route::get('/pos', [POSController::class, 'index'])->name('pos');
+
+Route::get('/sale-orders', [SaleOrderController::class, 'index'])->name('sale-orders.index');
+Route::get('/sale-orders/{id}', [SaleOrderController::class, 'show'])->name('sale-orders.show');
+
+
 
 Route::get('/products/search/{query}', function($query) {
     return \App\Models\Product::where('name', 'LIKE', "%$query%")->get();
