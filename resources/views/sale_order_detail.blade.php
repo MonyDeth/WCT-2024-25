@@ -5,7 +5,7 @@
 @section('content')
 <h2>Sale Order #{{ $order->id }}</h2>
 <p>Date: {{ $order->created_at->format('Y-m-d H:i') }}</p>
-<p>Payment Method: {{ $order->paymentMethod->name ?? 'N/A' }}</p>
+<p>Payment Method: {{ $order->paymentMethod->method_name ?? 'N/A' }}</p>
 
 <table class="min-w-full text-sm mt-4">
     <thead class="bg-gray-100">

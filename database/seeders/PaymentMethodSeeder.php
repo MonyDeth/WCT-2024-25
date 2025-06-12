@@ -10,21 +10,21 @@ class PaymentMethodSeeder extends Seeder
 {
     public function run()
     {
-        $now = Carbon::now(); // ✅ Define it here before using
+        $now = Carbon::now();
 
         DB::table('payment_methods')->insert([
             [
-                'method_name' => 'cash',
+                'method_name' => 'Cash',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'method_name' => 'khqr',
+                'method_name' => 'KHQR',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'method_name' => 'credit',
+                'method_name' => 'Credit/Debit Card',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
