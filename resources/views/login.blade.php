@@ -73,7 +73,7 @@
 
                 <!-- Banner -->
                 <div class="bg-muted relative hidden md:block">
-                    <img src="https://media1.tenor.com/m/BVkIDaN93ycAAAAC/particles-biosynth-gala.gif" class="absolute inset-0 h-full w-full object-cover" />
+                    <img src="https://frutiger-aero.org/img/frutiger-aero-1.webp" class="absolute inset-0 h-full w-full object-cover" />
                 </div>
 			</div>
 		</div>

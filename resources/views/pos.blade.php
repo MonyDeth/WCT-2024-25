@@ -29,7 +29,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-4 gap-2">
+		<div class="grid grid-cols-3 gap-2">
 			<template x-for="product in filteredProducts()" :key="product.id">
                 <div
                     class="flex items-center gap-4 bg-white border p-3 rounded-2xl cursor-pointer hover:bg-gray-100 transition hover:scale-105"

@@ -26,19 +26,12 @@ Route::get('/', function () {
 //     return view('welcome'); // your login page
 // })->name('login');
 
-Route::get('/pos', [POSController::class, 'index'])->name('pos');
-
-Route::get('/sale-orders', [SaleOrderController::class, 'index'])->name('sale-orders.index');
-Route::get('/sale-orders/{id}', [SaleOrderController::class, 'show'])->name('sale-orders.show');
-
-
 
 Route::get('/products/search/{query}', function($query) {
     return \App\Models\Product::where('name', 'LIKE', "%$query%")->get();
 });
 
 
-Route::post('/pos/checkout', [POSController::class, 'checkout']);
 
 // Show register form
 Route::get('/register', function () {
@@ -58,14 +51,19 @@ Route::middleware('auth')->group(function () {
     return view('category');
     })->name('category');
 
+    Route::get('/pos', [POSController::class, 'index'])->name('pos');
+    Route::post('/pos/checkout', [POSController::class, 'checkout']);
+
+
+    Route::get('/sale-orders', [SaleOrderController::class, 'index'])->name('sale-orders.index');
+    Route::get('/sale-orders/{id}', [SaleOrderController::class, 'show'])->name('sale-orders.show');
+
 });
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-
-//
 
 // Categories CRUD
 Route::get('/categories', [CategoryController::class, 'index']);      // List all categories

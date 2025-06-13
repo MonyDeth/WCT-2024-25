@@ -49,9 +49,7 @@
 
 		<div class="max-w-3xl w-full mx-auto bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm overflow-hidden p-0">
 			<div class="grid p-0 md:grid-cols-2">
-                <div class="bg-muted relative hidden md:block">
-					<img src="https://media1.tenor.com/m/BVkIDaN93ycAAAAC/particles-biosynth-gala.gif" alt="Image" class="absolute inset-0 h-full w-full object-cover" />
-				</div>
+
 				<!-- Form -->
 				<form action="{{ url('/register') }}" method="POST" class="p-6 space-y-4 bg-white">
 					<div class="bg-white rounded-t-xl">
@@ -78,6 +76,10 @@
 						<a href="{{ url('/') }}" class="px-4 py-1 ms-2 border rounded-md shadow-sm text-gray-800 hover:bg-gray-100">Log in</a>
 					</div>
 				</form>
+
+                <div class="bg-muted relative hidden md:block">
+					<img src="https://i.guim.co.uk/img/media/2b8a584d7cffb01b95a41e3f7d596b0ab572ad07/0_250_5000_3000/master/5000.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=b5913641ff22977b20ce3b87b7a8a7f5" alt="Image" class="absolute inset-0 h-full w-full object-cover" />
+				</div>
 
 			</div>
 		</div>
