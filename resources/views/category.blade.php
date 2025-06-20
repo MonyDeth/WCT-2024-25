@@ -122,14 +122,17 @@
 
             filterCategories() {
                 const term = this.search.toLowerCase();
-                this.filteredCategories = this.categories.filter(category =>
-                    category.category_name.toLowerCase().includes(term)
-                    || category.category_abbreviation.toLowerCase().includes(term)
-                    || (category.description || '').toLowerCase().includes(term)
-                );
+                this.filteredCategories = this.categories.filter(category => {
+                    const name = category.category_name || '';
+                    const abbreviation = category.category_abbreviation || '';
+                    const description = category.description || '';
+                    return (
+                        name.toLowerCase().includes(term) ||
+                        abbreviation.toLowerCase().includes(term) ||
+                        description.toLowerCase().includes(term)
+                    );
+                });
             },
-
-
 
 
             editCategory(cat) {
@@ -186,6 +189,5 @@
         }
     }
 </script>
-<script src="{{ asset('js/catalogue.js') }}"></script>
 
 @endsection

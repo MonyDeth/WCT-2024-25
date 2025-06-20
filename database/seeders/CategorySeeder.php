@@ -11,19 +11,29 @@ class CategorySeeder extends Seeder
     {
         DB::table('product_categories')->insert([
             [
-                'category_name' => 'Fantasy',
-                'category_abbreviation' => 'FAN',
-                'description' => 'Books set in fictional universes with magic and mythical creatures.'
+                'category_name' => 'Coffee',
+                'category_abbreviation' => 'COF',
+                'description' => 'Freshly brewed hot and iced coffee beverages.'
             ],
             [
-                'category_name' => 'Science Fiction',
-                'category_abbreviation' => 'SCI',
-                'description' => 'Futuristic stories with advanced science and technology.'
+                'category_name' => 'Tea',
+                'category_abbreviation' => 'TEA',
+                'description' => 'Wide selection of teas including black, green, and herbal.'
             ],
             [
-                'category_name' => 'Mystery',
-                'category_abbreviation' => 'MYS',
-                'description' => 'Whodunit novels full of clues, suspense, and detectives.'
+                'category_name' => 'Pastries',
+                'category_abbreviation' => 'PAS',
+                'description' => 'Freshly baked pastries and sweet treats.'
+            ],
+            [
+                'category_name' => 'Sandwiches',
+                'category_abbreviation' => 'SND',
+                'description' => 'Delicious sandwiches with fresh ingredients.'
+            ],
+            [
+                'category_name' => 'Smoothies',
+                'category_abbreviation' => 'SMO',
+                'description' => 'Refreshing fruit and vegetable smoothies.'
             ],
         ]);
     }
